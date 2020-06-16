@@ -1,0 +1,10 @@
+customaspects\OutputToFile.class
+customaspects\ProfilingAspect.class
+customaspects\TestAspect.class
+customaspects\XmlParser.class
+customaspects\CustomAspect.class
+customaspects\impl\ConcreteProfilingAspect.class
+customaspects\DistributionAspect.class
+customaspects\impl\ConcreteTestAspect.class
+customaspects\impl\ConcreteDistributionAspect.class
+customaspects\AbstractCustomAspect.class
