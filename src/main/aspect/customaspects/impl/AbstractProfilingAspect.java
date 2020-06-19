@@ -3,13 +3,6 @@ package customaspects.impl;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.DeclarePrecedence;
-
 import customaspects.AbstractCustomAspect;
 import customaspects.ProfilingAspect;
 
@@ -17,14 +10,12 @@ import customaspects.ProfilingAspect;
  * Ein umfangreicher Aspekt zum hierarchischen xml-Logging aller Ausfuehrungen
  * innerhalb einer speziellen Ausfuehrung.
  */
-@Aspect
-@DeclarePrecedence(value = "ConcreteTestAspect,ConcreteProfilingAspect")
-public class ConcreteProfilingAspect extends AbstractCustomAspect implements ProfilingAspect {
+public abstract class AbstractProfilingAspect extends AbstractCustomAspect implements ProfilingAspect {
 
 	/**
 	 * maximale Suchtiefe
 	 */
-	private final int maximalDepth = 3;
+	private final int maximalDepth = 15;
 
 	/**
 	 * @return the maximalDepth
@@ -34,45 +25,45 @@ public class ConcreteProfilingAspect extends AbstractCustomAspect implements Pro
 		return maximalDepth;
 	}
 
-	public ConcreteProfilingAspect() {
+	protected AbstractProfilingAspect() {
 		register();
 		setGenericName("ProfilingAspect");
 		this.setThreadToOutputMap(new ConcurrentHashMap<Thread, List<String>>());
 	}
 
-	/**
-	 * Der Pointcut der Methoden von Interesse
-	 */
-	private final String included = "execution(* definitions..*.*(..))";
+//	/**
+//	 * Der Pointcut der Methoden von Interesse
+//	 */
+//	private final String included  = "execution(* com.fja.ipl.c*..*.*(..))";
+//
+//	/**
+//	 * Der resultierende Pointcut
+//	 */
+//	private final String pointcut  = included;
+//
+//	/**
+//	 * Der Eintritts-Joinpoint, hier durch die org.junit.Test-Annotation markiert.
+//	 */
+//	private final String initialJoinPoint = "@annotation(org.junit.Test)";
+//
+//	/**
+//	 * Vor dem Betreten des Eintritts-Joinpoint wird der Schalter "running"
+//	 * umgelegt.
+//	 *
+//	 * @param jp der Eintritts-Joinpoint
+//	 */
+//	@Override
+//	@Before(initialJoinPoint)
+//	public void beforeInitialJoinPoint(JoinPoint jp) {
+//		ProfilingAspect.super.beforeInitialJoinPoint(jp);
+//	}
+//
+//	@Override
+//	@Around(pointcut)
+//	public Object recordMethodExecutionAdvise(final ProceedingJoinPoint pjp) throws Throwable {
+//		return ProfilingAspect.super.recordMethodExecutionAdvise(pjp);
+//	}
 
-	/**
-	 * Der resultierende Pointcut
-	 */
-	private final String pointcut = included;
-
-	/**
-	 * Der Eintritts-Joinpoint, hier durch die org.junit.Test-Annotation markiert.
-	 */
-	private final String initialJoinPoint = "@annotation(org.junit.Test)";
-
-	/**
-	 * Vor dem Betreten des Eintritts-Joinpoint wird der Schalter "running"
-	 * umgelegt.
-	 *
-	 * @param jp der Eintritts-Joinpoint
-	 */
-	@Override
-	@Before(initialJoinPoint)
-	public void beforeInitialJoinPoint(JoinPoint jp) {
-		ProfilingAspect.super.beforeInitialJoinPoint(jp);
-	}
-
-	@Override
-	@Around(pointcut)
-	public Object recordMethodExecutionAdvise(final ProceedingJoinPoint pjp) throws Throwable {
-		return ProfilingAspect.super.recordMethodExecutionAdvise(pjp);
-	}
-	
 	/**
 	 * Hauptschalter. Nur wenn true, passiert irgend etwas
 	 */

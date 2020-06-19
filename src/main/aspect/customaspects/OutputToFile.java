@@ -8,17 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import customaspects.impl.ConcreteTestAspect;
-
 public interface OutputToFile extends CustomAspect {
 
-	final TestAspect testAspect = ConcreteTestAspect.getInstance();
+//	final TestAspect testAspect = AbstractTestAspect.getInstance();
 
 	void print(String path) throws IOException;
 
-	default void register() {
-		testAspect.getRelevantAspects().add(this);
-	}
+	void register();
 
 	default void print(final Thread thread) throws IOException {
 		final String testcase = getTests().get(thread);

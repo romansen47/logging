@@ -61,8 +61,8 @@ public interface CustomAspect {
 		return ans;
 	}
 
-	final String[][] UMLAUT_REPLACEMENTS = { { "�", "Ae" }, { "�", "Ue" }, { "�", "Oe" }, { "�", "ae" }, { "�", "ue" },
-			{ "�", "oe" }, { "�", "ss" } };
+	final String[][] UMLAUT_REPLACEMENTS = { { "Ä", "Ae" }, { "Ü", "Ue" }, { "Ö", "Oe" }, { "ä", "ae" }, { "ü", "ue" },
+			{ "ö", "oe" }, { "ß", "ss" } };
 
 	default String replaceUmlaute(String orig) {
 		String result = orig;
@@ -83,15 +83,39 @@ public interface CustomAspect {
 		}
 		return str;
 	}
+	 
+	default String numberToString(Object o) {
+		return "<" + o.getClass().getSimpleName().split(Pattern.quote("@"))[0].split(Pattern.quote("$"))[0] + ">"
+				+ stringOf(o) + "</"
+				+ o.getClass().getSimpleName().split(Pattern.quote("@"))[0].split(Pattern.quote("$"))[0] + ">";
+	}
+	
+	default void listToString(Object o, List<String> ans) {
+		ans.add("<list>");
+		for (final Object x : (List<?>) o) {
+			final String str = this.getEntry(o, ans);
+			if (str.isEmpty()) {
+				String s = stringOf(x.getClass()).split("class ")[1].split(Pattern.quote("@"))[0]
+						.split(Pattern.quote("$"))[0];
+				ans.add("<" + s + ">" + stringOf(x).split(Pattern.quote("@"))[0].split(Pattern.quote("$"))[0] + "</" + s
+						+ ">\r");
+			}
 
+			else {
+				ans.add(str);
+			}
+		}
+		ans.add("</list>");
+	}
+
+	
 	default String xmlString(final Object o) {
 		final List<String> ans = new ArrayList<>();
 		if (o != null) {
 			simpleToString(o, ans);
 		} else {
 			ans.add("<null />");
-		}
-		;
+		} 
 		String realAns = "";
 		for (final String str : ans) {
 			realAns += str;

@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
 
 import org.aspectj.lang.JoinPoint;
 
-import customaspects.impl.ConcreteProfilingAspect;
+import customaspects.impl.AbstractProfilingAspect;
 
 public interface TestAspect extends OutputToFile {
 
 	default CustomAspect getConcreteProfilingAspect() {
 		for (CustomAspect aspect : getRelevantAspects()) {
-			if (aspect instanceof ConcreteProfilingAspect) {
+			if (aspect instanceof AbstractProfilingAspect) {
 				return aspect;
 			}
 		}
@@ -26,7 +26,7 @@ public interface TestAspect extends OutputToFile {
 
 	default void syncBeforeTest(JoinPoint jp) throws Throwable {
 		if (getConcreteProfilingAspect() != null) {
-			((ConcreteProfilingAspect) getConcreteProfilingAspect()).setEnabled(true);
+			((AbstractProfilingAspect) getConcreteProfilingAspect()).setEnabled(true);
 			log("Profiling active in " + jp.toShortString().split(Pattern.quote("("))[1]);
 		}
 		this.syncBefore(jp);
@@ -41,7 +41,7 @@ public interface TestAspect extends OutputToFile {
 	 */
 	@SuppressWarnings("unchecked")
 	default void syncBefore(final JoinPoint jp) {
-		ConcreteProfilingAspect deepSearch = (ConcreteProfilingAspect) getConcreteProfilingAspect();
+		AbstractProfilingAspect deepSearch = (AbstractProfilingAspect) getConcreteProfilingAspect();
 		final Thread thread = Thread.currentThread();
 		final String tcn = jp.toShortString().split(Pattern.quote("@"))[0].split(Pattern.quote("("))[1]
 				.replace(Pattern.quote("."), Pattern.quote("/"));
@@ -67,7 +67,7 @@ public interface TestAspect extends OutputToFile {
 			String tcn = "target/aspectj/test/";
 			new File(tcn).mkdirs();
 			if (getConcreteProfilingAspect() != null) {
-				((ConcreteProfilingAspect) getConcreteProfilingAspect()).setRecording(false);
+				((AbstractProfilingAspect) getConcreteProfilingAspect()).setRecording(false);
 			}
 			for (OutputToFile aspect : getRelevantAspects()) {
 				log("writing " + aspect.getGenericName() + "-output");

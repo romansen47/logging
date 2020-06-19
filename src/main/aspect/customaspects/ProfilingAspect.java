@@ -168,7 +168,7 @@ public interface ProfilingAspect extends OutputToFile {
 		this.setRecording(false);
 		String ans="";
 		if (o instanceof List) {
-			for (Object e:(List)o) {
+			for (Object e:(List<?>)o) {
 				ans+=OutputToFile.super.xmlString(e);
 			}
 		}

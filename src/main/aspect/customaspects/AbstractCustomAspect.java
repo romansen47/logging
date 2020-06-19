@@ -1,15 +1,14 @@
 package customaspects;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap; 
-import org.aspectj.lang.annotation.Aspect;
+import java.util.concurrent.ConcurrentHashMap;
 
-@Aspect
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+ 
 public abstract class AbstractCustomAspect implements OutputToFile {
 
 	private Logger logger;

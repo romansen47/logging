@@ -1,19 +1,21 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>general</groupId>
-  <artifactId>logging</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>logging</name>
-  
-  <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>general</groupId>
+	<artifactId>logging</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>logging</name>
+
+	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<aspectj.version>1.9.5</aspectj.version>
-		<spring.version>5.2.2.RELEASE</spring.version> 
+		<spring.version>5.2.2.RELEASE</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<dependencies> 
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -85,13 +87,13 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>runtime</scope>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency> 
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -128,5 +130,5 @@
 			</plugin>
 		</plugins>
 	</build>
- 
+
 </project>

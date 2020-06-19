@@ -13,9 +13,9 @@ import customaspects.AbstractCustomAspect;
 import customaspects.DistributionAspect;
 
 @Aspect
-public class ConcreteDistributionAspect extends AbstractCustomAspect implements DistributionAspect {
+public abstract class AbstractDistributionAspect extends AbstractCustomAspect implements DistributionAspect {
  
-	public ConcreteDistributionAspect() {
+	public AbstractDistributionAspect() {
 		register();
 		setGenericName("DistributionAspect");
 		this.setThreadToOutputMap(new ConcurrentHashMap<Thread, Map<String, Integer>>());
