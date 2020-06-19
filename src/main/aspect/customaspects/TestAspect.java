@@ -27,7 +27,7 @@ public interface TestAspect extends OutputToFile {
 	default void syncBeforeTest(JoinPoint jp) throws Throwable {
 		if (getConcreteProfilingAspect() != null) {
 			((AbstractProfilingAspect) getConcreteProfilingAspect()).setEnabled(true);
-			log("Profiling active in " + jp.toShortString().split(Pattern.quote("("))[1]);
+			log("\rProfiling active in " + jp.toShortString().split(Pattern.quote("("))[1]);
 		}
 		this.syncBefore(jp);
 		getTests().putIfAbsent(Thread.currentThread(), jp.toShortString());
@@ -41,14 +41,16 @@ public interface TestAspect extends OutputToFile {
 	 */
 	@SuppressWarnings("unchecked")
 	default void syncBefore(final JoinPoint jp) {
-		AbstractProfilingAspect deepSearch = (AbstractProfilingAspect) getConcreteProfilingAspect();
-		final Thread thread = Thread.currentThread();
 		final String tcn = jp.toShortString().split(Pattern.quote("@"))[0].split(Pattern.quote("("))[1]
 				.replace(Pattern.quote("."), Pattern.quote("/"));
-		try {
-			((Map<Thread, List<String>>) deepSearch.getThreadToOutputMap()).putIfAbsent(thread, new ArrayList<>());
-		} catch (ClassCastException e) {
-			log("wrong type, not a map. Check abstract inheritage dependency");
+		final Thread thread = Thread.currentThread();
+		AbstractProfilingAspect deepSearch = (AbstractProfilingAspect) getConcreteProfilingAspect();
+		if (deepSearch != null) {
+			try {
+				((Map<Thread, List<String>>) deepSearch.getThreadToOutputMap()).putIfAbsent(thread, new ArrayList<>());
+			} catch (ClassCastException e) {
+				log("wrong type, not a map. Check abstract inheritage dependency");
+			}
 		}
 		for (OutputToFile aspect : this.getRelevantAspects()) {
 			aspect.getTests().put(thread, tcn);

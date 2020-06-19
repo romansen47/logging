@@ -114,9 +114,9 @@ public interface ProfilingAspect extends OutputToFile {
 	 */
 	public void setCurrentDepth(int depth);
 
-	void setEnabled(Boolean enabled);
+	void setEnabled(boolean enabled);
 
-	Boolean isEnabled();
+	boolean isEnabled();
 
 	/**
 	 * Legt den Schalter "recording" um

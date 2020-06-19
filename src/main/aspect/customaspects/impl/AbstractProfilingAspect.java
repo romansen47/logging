@@ -15,7 +15,7 @@ public abstract class AbstractProfilingAspect extends AbstractCustomAspect imple
 	/**
 	 * maximale Suchtiefe
 	 */
-	private final int maximalDepth = 15;
+	private int maximalDepth;
 
 	/**
 	 * @return the maximalDepth
@@ -23,6 +23,10 @@ public abstract class AbstractProfilingAspect extends AbstractCustomAspect imple
 	@Override
 	public int getMaximalDepth() {
 		return maximalDepth;
+	}
+
+	public void setMaximalDepth(int maximalDepth) {
+		this.maximalDepth = maximalDepth;
 	}
 
 	protected AbstractProfilingAspect() {
@@ -67,15 +71,15 @@ public abstract class AbstractProfilingAspect extends AbstractCustomAspect imple
 	/**
 	 * Hauptschalter. Nur wenn true, passiert irgend etwas
 	 */
-	private volatile Boolean enabled = true;
+	private volatile boolean enabled = true;
 
 	@Override
-	public Boolean isEnabled() {
+	public boolean isEnabled() {
 		return enabled;
 	}
 
 	@Override
-	public void setEnabled(Boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
