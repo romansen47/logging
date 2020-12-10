@@ -52,13 +52,13 @@ public interface ProfilingAspect extends OutputToFile {
 	default Object createXmlEntry(final ProceedingJoinPoint pjp) throws Throwable {
 		List<String> list = ((Map<Thread, List<String>>) getThreadToOutputMap()).getOrDefault(Thread.currentThread(),
 				new ArrayList<String>());
-		String str = ""; 
+		String str = "";
 		try {
 			str = customFullyQualifiedName(pjp);
-		} 
-		catch (Exception e) { ; 
+		} catch (Exception e) {
+			;
 			return pjp.proceed();
-		} 
+		}
 		if (str.equals("") || str.contains("$")) {
 			str = pjp.getSourceLocation().getWithinType().getSimpleName();
 			str = str.replace("$", ":").split(":")[0];
@@ -120,7 +120,8 @@ public interface ProfilingAspect extends OutputToFile {
 
 	/**
 	 * Legt den Schalter "recording" um
-	 * @param jp 
+	 * 
+	 * @param jp
 	 */
 	default void initialize(JoinPoint jp) {
 		if (!isRecording()) {
@@ -166,20 +167,25 @@ public interface ProfilingAspect extends OutputToFile {
 	default String xmlString(final Object o) {
 		boolean a = isRecording();
 		this.setRecording(false);
-		String ans="";
+		String ans = "";
 		if (o instanceof List) {
-			for (Object e:(List<?>)o) {
-				ans+=OutputToFile.super.xmlString(e);
+			ans += "<List>\r";
+			for (Object e : (List<?>) o) {
+				ans += OutputToFile.super.xmlString(e);
+			}
+			ans += "</List>\r";
+		} else {
+			if (o instanceof Map) {
+				ans += "<Map>\r";
+				for (Entry<?, ?> e : ((Map<?, ?>) o).entrySet()) {
+					ans += "<key>\r" + OutputToFile.super.xmlString(e.getKey()) + "\r</key>\r";
+					ans += "<value>\r" + OutputToFile.super.xmlString(e.getValue()) + "\r</value>\r";
+				}
+				ans += "</Map>\r";
+			} else {
+				ans = OutputToFile.super.xmlString(o);
 			}
 		}
-		if (o instanceof Map) {
-			for (Entry<?,?> e:((Map<?,?>)o).entrySet()) {
-				ans+="<key>\r"+OutputToFile.super.xmlString(e.getKey())+"\r</key>\r";
-				ans+="<value>\r"+OutputToFile.super.xmlString(e.getValue())+"\r</value>\r";
-			}
-		}
-		else {
-		ans = OutputToFile.super.xmlString(o);}
 		this.setRecording(a);
 		return ans;
 	}

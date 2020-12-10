@@ -83,13 +83,12 @@ public interface CustomAspect {
 		}
 		return str;
 	}
-	 
+
 	default String numberToString(Object o) {
-		return "<" + o.getClass().getSimpleName().split(Pattern.quote("@"))[0].split(Pattern.quote("$"))[0] + ">"
-				+ stringOf(o) + "</"
-				+ o.getClass().getSimpleName().split(Pattern.quote("@"))[0].split(Pattern.quote("$"))[0] + ">";
+		String s = o.getClass().getSimpleName().split(Pattern.quote("@"))[0].split(Pattern.quote("$"))[0] + ">";
+		return "<" + s + stringOf(o) + "</" + s+"\r";
 	}
-	
+
 	default void listToString(Object o, List<String> ans) {
 		ans.add("<list>");
 		for (final Object x : (List<?>) o) {
@@ -108,14 +107,13 @@ public interface CustomAspect {
 		ans.add("</list>");
 	}
 
-	
 	default String xmlString(final Object o) {
 		final List<String> ans = new ArrayList<>();
 		if (o != null) {
 			simpleToString(o, ans);
 		} else {
 			ans.add("<null />");
-		} 
+		}
 		String realAns = "";
 		for (final String str : ans) {
 			realAns += str;
